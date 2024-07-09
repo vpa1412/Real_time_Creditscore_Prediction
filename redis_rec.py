@@ -1,3 +1,5 @@
+# redis-cli -h 192.168.80.74 -p 6379 -a yourpassword ping
+
 import redis
 
 # Connect to the Redis server
