@@ -1,15 +1,16 @@
 import redis
 
-# Connect to the local Redis server
-client = redis.StrictRedis(host='localhost', port=6379, db=0)
+# Connect to the Redis server
+client = redis.StrictRedis(host='192.168.80.74', port=6379, password='yourpassword', db=0)
 
-def send_to_queue(queue_name, message):
-    client.lpush(queue_name, message)
-    print(f"Sent: {message}")
+def receive_from_queue(queue_name):
+    while True:
+        message = client.brpop(queue_name)
+        if message:
+            print(f"Received: {message[1].decode('utf-8')}")
+        else:
+            print("No more messages in the queue")
 
 # Example usage
 queue_name = 'my_queue'
-messages = ['message 1', 'message 2', 'message 3']
-
-for msg in messages:
-    send_to_queue(queue_name, msg)
+receive_from_queue(queue_name)

@@ -1,7 +1,7 @@
 import redis
 
-# Connect to the local Redis server
-client = redis.StrictRedis(host='localhost', port=6379, db=0)
+# Connect to the Redis server
+client = redis.StrictRedis(host='192.168.80.74', port=6379, password='yourpassword', db=0)
 
 def send_to_queue(queue_name, message):
     client.lpush(queue_name, message)
