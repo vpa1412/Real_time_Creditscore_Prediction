@@ -20,8 +20,7 @@ df = df.drop("ID", "Customer_ID", "Month", "Name", "SSN", "Type_of_Loan")
 # Replace '_' with '' in string columns
 
 for column in df.columns:
-    if df.schema[column].dataType == StringType():
-        df = df.withColumn(column, regexp_replace(column, '_', ''))
+    print(f"Column '{column}': {df.select(column).distinct().collect()}")
 
 # Fill NA values with mode
 from pyspark.sql.functions import col, count, isnan
@@ -29,7 +28,10 @@ from pyspark.sql.functions import col, count, isnan
 mode_dict = {}
 for column in df.columns:
     mode_value = df.groupBy(column).count().orderBy("count", ascending=False).first()[0]
-    df = df.fillna({column: mode_value})
+    if mode_value is None:
+        print(f"Mode value for column '{column}' is None. Skipping fillna for this column.")
+    else:
+        df = df.fillna({column: mode_value})
 
 # Convert relevant columns to float
 df = df.withColumn("Annual_Income", col("Annual_Income").cast("float")) \
