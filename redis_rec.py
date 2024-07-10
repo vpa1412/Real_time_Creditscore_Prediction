@@ -1,18 +1,22 @@
 # redis-cli -h 192.168.80.74 -p 6379 -a yourpassword ping
 
 import redis
+import subprocess
 
 # Connect to the Redis server
-client = redis.StrictRedis(host='192.168.80.74', port=6379, password='yourpassword', db=0)
+r = redis.Redis(host='192.168.80.74', port=6379, password='12345')
 
-def receive_from_queue(queue_name):
-    while True:
-        message = client.brpop(queue_name)
-        if message:
-            print(f"Received: {message[1].decode('utf-8')}")
-        else:
-            print("No more messages in the queue")
+# Subscribe to a channel
+p = r.pubsub()
+p.subscribe('start_hadoop')
 
-# Example usage
-queue_name = 'my_queue'
-receive_from_queue(queue_name)
+print('Listening for messages...')
+
+for message in p.listen():
+    if message['type'] == 'message':
+        command = message['data'].decode('utf-8')
+        print(f"Received command: {command}")
+
+        # Execute the command
+        subprocess.run(command, shell=True)
+
