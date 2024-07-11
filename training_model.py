@@ -58,7 +58,6 @@ for column in numeric_columns:
 
 # List of categorical columns
 categorical_columns = ["Occupation", "Credit_Mix", "Credit_History_Age", "Payment_of_Min_Amount", "Payment_Behaviour"]
-
 # Indexing and encoding stages
 stages = []
 for column in categorical_columns:
