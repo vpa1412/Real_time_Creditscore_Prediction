@@ -1,10 +1,8 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import expr
+from pyspark.sql.functions import expr, col, count, isnan, regexp_replace, udf
 from pyspark.ml.feature import StringIndexer, OneHotEncoder
 from pyspark.ml import Pipeline
-from pyspark.sql.functions import regexp_replace
-from pyspark.sql.functions import col, count, isnan
-from pyspark.sql.types import StringType
+from pyspark.sql.types import StringType, IntegerType
 
 # Create Spark session
 spark = SparkSession.builder \
@@ -17,20 +15,24 @@ df = spark.read.csv('train.csv', header=True, inferSchema=True)
 # Drop unwanted columns
 df = df.drop("ID", "Customer_ID", "Month", "Name", "SSN", "Type_of_Loan")
 
-# Replace '_' with '' in string columns
+# Define a UDF to convert Credit_Score text to integers
+def credit_score_to_numeric(credit_score):
+    mappings = {'Good': 1, 'Standard': 2, 'Poor': 3}
+    return mappings.get(credit_score, 0)  # Return 0 if none of these values match
 
-for column in df.columns:
-    print(f"Column '{column}': {df.select(column).distinct().collect()}")
+# Register UDF
+credit_score_udf = udf(credit_score_to_numeric, IntegerType())
+
+# Apply UDF to create a new column
+df = df.withColumn("Credit_Score_Numeric", credit_score_udf(col("Credit_Score")))
+
+df = df.drop("Credit_Score")
 
 # Fill NA values with mode
-from pyspark.sql.functions import col, count, isnan
-
 mode_dict = {}
 for column in df.columns:
     mode_value = df.groupBy(column).count().orderBy("count", ascending=False).first()[0]
-    if mode_value is None:
-        print(f"Mode value for column '{column}' is None. Skipping fillna for this column.")
-    else:
+    if mode_value is not None:
         df = df.fillna({column: mode_value})
 
 # Convert relevant columns to float
@@ -44,7 +46,6 @@ df = df.withColumn("Annual_Income", col("Annual_Income").cast("float")) \
        .withColumn("Monthly_Balance", col("Monthly_Balance").cast("float"))
 
 # Calculate IQR and remove outliers
-
 numeric_columns = [column for column in df.columns if df.schema[column].dataType != StringType()]
 
 for column in numeric_columns:
@@ -54,8 +55,6 @@ for column in numeric_columns:
     lower_bound = q1 - 1.5 * iqr
     upper_bound = q3 + 1.5 * iqr
     df = df.filter((col(column) >= lower_bound) & (col(column) <= upper_bound))
-
-
 
 # List of categorical columns
 categorical_columns = ["Occupation", "Credit_Mix", "Credit_History_Age", "Payment_of_Min_Amount", "Payment_Behaviour"]
@@ -76,5 +75,6 @@ indexed_columns = [column + "_Index" for column in categorical_columns]
 ohe_columns = [column + "_OHE" for column in categorical_columns]
 df = df.drop(*categorical_columns).drop(*indexed_columns)
 
-df.show()
 
+
+df.show()
