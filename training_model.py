@@ -56,7 +56,6 @@ for column in numeric_columns:
     upper_bound = q3 + 1.5 * iqr
     df = df.filter((col(column) >= lower_bound) & (col(column) <= upper_bound))
 
-
 # List of categorical columns
 categorical_columns = ["Occupation", "Credit_Mix", "Credit_History_Age", "Payment_of_Min_Amount", "Payment_Behaviour"]
 
