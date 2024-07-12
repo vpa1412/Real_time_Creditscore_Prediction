@@ -17,17 +17,17 @@ df = spark.read.csv('train.csv', header=True, inferSchema=True)
 df = df.drop("ID", "Customer_ID", "Month", "Name", "SSN", "Type_of_Loan", "Credit_Mix")
 
 # Define a UDF to convert Credit_Score text to integers
-def credit_score_to_numeric(credit_score):
-    mappings = {'Good': 1, 'Standard': 2, 'Poor': 3}
-    return mappings.get(credit_score, 0)  # Return 0 if none of these values match
-
-# Register UDF
-credit_score_udf = udf(credit_score_to_numeric, IntegerType())
-
-# Apply UDF to create a new column
-df = df.withColumn("Credit_Score_Numeric", credit_score_udf(col("Credit_Score")))
-
-df = df.drop("Credit_Score")
+# def credit_score_to_numeric(credit_score):
+#     mappings = {'Good': 1, 'Standard': 2, 'Poor': 3}
+#     return mappings.get(credit_score, 0)  # Return 0 if none of these values match
+#
+# # Register UDF
+# credit_score_udf = udf(credit_score_to_numeric, IntegerType())
+#
+# # Apply UDF to create a new column
+# df = df.withColumn("Credit_Score_Numeric", credit_score_udf(col("Credit_Score")))
+#
+# df = df.drop("Credit_Score")
 
 # Fill NA values with mode
 mode_dict = {}
@@ -151,14 +151,24 @@ payment_behaviour_mappings = {
 payment_behaviour_udf = udf(lambda x: payment_behaviour_mappings.get(x, 0), IntegerType())
 df = df.withColumn("Payment_Behaviour_Numeric", payment_behaviour_udf(col("Payment_Behaviour"))).drop("Payment_Behaviour")
 
+def credit_score_to_numeric(credit_score):
+    mappings = {'Good': 1, 'Standard': 2, 'Poor': 3}
+    return mappings.get(credit_score, 0)  # Return 0 if none of these values match
 
+# Register UDF
+credit_score_udf = udf(credit_score_to_numeric, IntegerType())
+
+# Apply UDF to create a new column
+df = df.withColumn("Credit_Score_Numeric", credit_score_udf(col("Credit_Score")))
+
+df = df.drop("Credit_Score")
 df.show()
 
 # # Specify the path where you want to save the CSV file
-# output_path = "~/PycharmProjects/final_bigdata/output.csv"
-#
-# # Save the DataFrame to CSV
+# output_path = "~/CS411/final_bigdata/processed.csv"
+# #
+# # # Save the DataFrame to CSV
 # df.write.csv(path=output_path, mode="overwrite", header=True)
-#
+# #
 # # Informative print statement
 # print(f"DataFrame is saved as CSV at {output_path}")
