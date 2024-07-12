@@ -13,7 +13,7 @@ findspark.init()
 # Build the SparkSession
 spark = SparkSession.builder \
     .master("local") \
-    .appName("dat gi cung duoc") \
+    .appName("ModelTraining") \
     .config("spark.executor.memory", "1gb") \
     .getOrCreate()
 
@@ -47,4 +47,5 @@ predictions.select("Yn", "prediction")
 evaluator = MulticlassClassificationEvaluator(
     labelCol="Yn", predictionCol="prediction", metricName="accuracy")
 accuracy = evaluator.evaluate(predictions)
-print("Test Accuracy = %g" % (accuracy))
+# print("Test Accuracy = %g" % (accuracy))
+model.save('hdfs://192.168.80.84:9000/kt/model')
