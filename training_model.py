@@ -48,5 +48,5 @@ evaluator = MulticlassClassificationEvaluator(
     labelCol="Yn", predictionCol="prediction", metricName="accuracy")
 accuracy = evaluator.evaluate(predictions)
 # print("Test Accuracy = %g" % (accuracy))
-model.save('hdfs://192.168.80.66:9000/kt/model')
+# model.save('hdfs://192.168.80.66:9000/kt/model')
 # df.write.format("delta").save("/path/to/delta-table")
