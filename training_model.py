@@ -19,9 +19,9 @@ spark = SparkSession.builder \
 
 sc = spark.sparkContext
 
-rdd = sc.textFile('/home/phuonganh/CS411/final_bigdata/processed.csv')
+rdd = sc.textFile('hdfs://192.168.80.66:9000/vpa2003/processed.csv')
 # rdd.take(5)
-df = spark.read.csv('/home/phuonganh/CS411/final_bigdata/processed.csv', header=True)
+df = spark.read.csv('hdfs://192.168.80.66:9000/vpa2003/processed.csv', header=True)
 # df.show(5)
 def splitdt(x):
     return (DenseVector(x[:20]), x[20])
@@ -48,4 +48,5 @@ evaluator = MulticlassClassificationEvaluator(
     labelCol="Yn", predictionCol="prediction", metricName="accuracy")
 accuracy = evaluator.evaluate(predictions)
 # print("Test Accuracy = %g" % (accuracy))
-model.save('hdfs://192.168.80.84:9000/kt/model')
+model.save('hdfs://192.168.80.66:9000/kt/model')
+# df.write.format("delta").save("/path/to/delta-table")
