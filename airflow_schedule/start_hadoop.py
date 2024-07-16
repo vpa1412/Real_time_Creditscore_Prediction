@@ -1,11 +1,11 @@
 import os
 import subprocess
 
-def startSpark():
+def startHadoop():
     try:
-        os.chdir("/home/ktinh/Documents/ah/spark-3.5.1-bin-hadoop3-scala2.13/sbin")
+        os.chdir("/home/ktinh/Documents/")
         subprocess.run("./start-all.sh")
-        print("Spark Server: ON")
+        print("hadoop on")
     except:
         print("error")
 def submitSpark():
