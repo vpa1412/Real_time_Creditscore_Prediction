@@ -1,8 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import expr, col, count, isnan, regexp_replace, udf
-from pyspark.ml.feature import StringIndexer, OneHotEncoder
-from pyspark.ml import Pipeline
-from pyspark.sql.types import StringType, IntegerType
+from pyspark.ml.feature import StringIndexer
 from pyspark.ml.linalg import DenseVector
 from pyspark.ml.classification import RandomForestClassifier
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
