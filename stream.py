@@ -76,10 +76,10 @@ df_qom = df.filter("ID is not null") \
     "Total_EMI_per_month",
     "Amount_invested_monthly",
     "Monthly_Balance",
-    "Occupation",
-    "Credit_History_Age",
-    "Payment_of_Min_Amount",
-    "Payment_Behaviour"
+    "Occupation_Numeric",
+    "Credit_History_Age_Numeric",
+    "Payment_of_Min_Amount_Numeric",
+    "Payment_Behaviour_Numeric"
     )
 
 
@@ -87,7 +87,7 @@ df_qom = df.filter("ID is not null") \
 df_qom.writeStream \
     .trigger(processingTime="10 seconds") \
     .format("console") \
-    .option("checkpointLocation", "/home/ktinh/checkpoint") \
+    .option("checkpointLocation", "/home/ktinh/checkpoint1") \
     .outputMode("update") \
     .start()
 
