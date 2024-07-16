@@ -21,7 +21,6 @@ spark.sparkContext.setLogLevel('ERROR')
 #         .mode("append")\
 #         .save()
 
-
 schema = StructType([
     StructField("ID", StringType()),
     StructField("Age", StringType()),  # Age is a float type
