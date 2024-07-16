@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+import ex
 
 
 def startCassandra():
@@ -12,5 +12,5 @@ def startCassandra():
         subprocess.run("./")
 
         print("Cassandra: ON")
-    except:
-        print("error")
+    except Exception as e:
+        print(f"Error in start Cassandra: {e}")

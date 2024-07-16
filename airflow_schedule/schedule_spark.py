@@ -3,7 +3,7 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 from redis import Redis
 from rq import Queue
-from submit_spark import submitSpark,startSpark
+from task_spark import submitSpark,startSpark
 
 
 def submit_Spark():
