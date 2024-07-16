@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, FloatType, IntegerType
 from pyspark.ml import PipelineModel
-from pyspark.sql.functions import col, from_json
+from pyspark.sql.functions import col, from_json, when
 
 # Tạo Spark session
 spark = SparkSession.builder \
@@ -10,6 +10,7 @@ spark = SparkSession.builder \
 
 # Định nghĩa schema
 schema = StructType([
+    StructField("ID", StringType(), True),
     StructField("Age", IntegerType(), True),
     StructField("Annual_Income", IntegerType(), True),
     StructField("Monthly_Inhand_Salary", FloatType(), True),
@@ -33,28 +34,56 @@ schema = StructType([
 ])
 
 # Đọc dữ liệu từ Kafka
-kafka_df = spark \
-    .readStream \
-    .format("kafka") \
-    .option("kafka.bootstrap.servers", "localhost:9092") \
-    .option("subscribe", "bank_cards") \
-    .load()
+# kafka_df = spark \
+#     .readStream \
+#     .format("kafka") \
+#     .option("kafka.bootstrap.servers", "192.168.80.83:9092") \
+#     .option("subscribe", "credit_testing") \
+#     .load()
+
+# Kiểm tra schema của kafka_df
+# kafka_df.printSchema()
 
 # Phân tích cú pháp giá trị JSON
-parsed_df = kafka_df.selectExpr("CAST(value AS STRING) as json") \
+# parsed_df = kafka_df.selectExpr("CAST(value AS STRING) as json") \
+#     .select(from_json(col("json"), schema).alias("data")) \
+#     .select("data.*")
+
+kafka_df = spark.readStream \
+    .format("kafka") \
+    .option("kafka.bootstrap.servers", "192.168.80.83:9092") \
+    .option("subscribe", "credit_testing") \
+    .option("startingOffsets", "latest") \
+    .option("failOnDataLoss", False) \
+    .load() \
+    .selectExpr("CAST(value AS STRING) as json") \
     .select(from_json(col("json"), schema).alias("data")) \
     .select("data.*")
 
+kafka_df.printSchema()
+
+for column in kafka_df.columns:
+    kafka_df = kafka_df.withColumn(column, when(col(column).isNull(), 0).otherwise(col(column)))
+
+# Kiểm tra schema của parsed_df
+# parsed_df.printSchema()
+query = kafka_df.writeStream \
+    .outputMode("append") \
+    .format("console") \
+    .start()
+
+query.awaitTermination(5)
+
+query.stop()
 # Tải mô hình đã huấn luyện
-model = PipelineModel.load("credit_model")
+model = PipelineModel.load("/home/ktinh/PycharmProjects/final_bigdata/credit_model")
 
 # Dự đoán
-predictions = model.transform(parsed_df)
+predictions = model.transform(kafka_df)
 
 # Chọn các cột cần thiết
-output_df = predictions.select("Age", "Customer_ID", "prediction")
+output_df = predictions.select("ID", "prediction")
 
-# Ghi kết quả dự đoán ra console (hoặc các nơi khác)
 query = output_df.writeStream \
     .outputMode("append") \
     .format("console") \
