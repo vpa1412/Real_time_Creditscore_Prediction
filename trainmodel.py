@@ -9,7 +9,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Đọc dữ liệu từ file CSV và tự động suy luận schema
-df = spark.read.csv("processed.csv", header=True, inferSchema=True)
+df = spark.read.csv("/home/ktinh/PycharmProjects/final_bigdata/processed.csv", header=True, inferSchema=True)
 
 # In ra schema để kiểm tra
 df.printSchema()
@@ -51,7 +51,7 @@ pipeline = Pipeline(stages=[assembler, rf])
 model = pipeline.fit(df)
 
 # Lưu mô hình đã huấn luyện
-model.write().overwrite().save("credit_model")
+model.write().overwrite().save("hdfs://192.168.80.66:9000/kt/model_ok")
 
 # Dừng Spark session
 spark.stop()

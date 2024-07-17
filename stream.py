@@ -59,6 +59,7 @@ df = spark.readStream \
 
 df_qom = df.filter("ID is not null") \
     .select(
+    "ID",
     "Age",
     "Annual_Income",
     "Monthly_Inhand_Salary",
@@ -86,7 +87,7 @@ df_qom = df.filter("ID is not null") \
 df_qom.writeStream \
     .trigger(processingTime="10 seconds") \
     .format("console") \
-    .option("checkpointLocation", "/home/phuonganh/CS411/checkpoint3") \
+    .option("checkpointLocation", "/home/ktinh/checkpoint3") \
     .outputMode("update") \
     .start()
 

@@ -7,11 +7,11 @@ from pyspark.sql.window import Window
 
 # Create Spark session
 spark = SparkSession.builder \
-    .appName("CreditDataPreprocessing") \
+    .appName("CreditData") \
     .getOrCreate()
 
 # Load the dataset
-df = spark.read.csv('train.csv', header=True, inferSchema=True)
+df = spark.read.csv('hdfs://192.168.80.66:9000/kt/train.csv', header=True, inferSchema=True)
 
 # Drop unwanted columns
 df = df.drop("ID", "Customer_ID", "Month", "Name", "SSN", "Type_of_Loan", "Credit_Mix")
@@ -163,6 +163,7 @@ df = df.withColumn("Credit_Score_Numeric", credit_score_udf(col("Credit_Score"))
 
 df = df.drop("Credit_Score")
 df.show()
+
 
 # # Specify the path where you want to save the CSV file
 # output_path = "~/CS411/final_bigdata/processed.csv"
