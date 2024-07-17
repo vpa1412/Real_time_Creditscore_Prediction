@@ -90,3 +90,5 @@ query = output_df.writeStream \
     .start()
 
 query.awaitTermination()
+
+
