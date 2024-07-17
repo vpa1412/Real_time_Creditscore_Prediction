@@ -1,0 +1,65 @@
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># final_bigdata
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision 99243ee22f9403c1fa6a2af137e1c0a7d6561eef)
++++ b/README.md	(date 1721103044181)
+@@ -1,1 +1,11 @@
+-# final_bigdata
+\ No newline at end of file
++# final_bigdata
++
++# start airflow:
++- docker compose up
++
++# start redis server:
++- docker start redis-container
++- host: redis://192.168.80.58:6379/ 
++
++# worker:
++- rq worker -u redis://192.168.80.58:6379 name
+Index: ariflow_test.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ariflow_test.py b/ariflow_test.py
+new file mode 100644
+--- /dev/null	(date 1720771232551)
++++ b/ariflow_test.py	(date 1720771232551)
+@@ -0,0 +1,31 @@
++from airflow import DAG
++from datetime import datetime, timedelta
++from airflow.operators.python import PythonOperator
++
++def message():
++    print("First DAG executed Successfully!!")
++
++# Define the default_args dictionary
++default_args = {
++    'owner': 'airflow',
++    'depends_on_past': False,
++    'start_date': datetime(2022, 1, 23),
++    'email_on_failure': False,
++    'email_on_retry': False,
++    'retries': 1,
++    'retry_delay': timedelta(minutes=5),
++}
++
++# Define the DAG
++with DAG(
++    dag_id="FirstDAG",
++    default_args=default_args,
++    description="A simple DAG to print a message every minute",
++    schedule="*/1 * * * *",
++    catchup=False,
++) as dag:
++
++    task = PythonOperator(
++        task_id="task",
++        python_callable=message
++    )
