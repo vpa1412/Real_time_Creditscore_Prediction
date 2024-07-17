@@ -63,29 +63,29 @@ decide_task = BranchPythonOperator(
 )
 
 submit_spark_task = PythonOperator(
-    task_id='enqueue_submit_spark_task',
+    task_id='submit_Spark',
     python_callable=submit_Spark,
     dag=dag,
 )
 
 start_spark_task = PythonOperator(
-    task_id='enqueue_start_spark_task',
+    task_id='start_Spark',
     python_callable=start_Spark,
     dag=dag,
 )
 
 start_hadoop_task = PythonOperator(
-    task_id='enqueue_start_hadoop_task',
+    task_id='start_Hadoop',
     python_callable=start_Hadoop,
     dag=dag,
 )
 
-end_task = DummyOperator(
-    task_id='end',
-    dag=dag
-)
-
-decide_task >> [submit_spark_task, start_spark_task, start_hadoop_task]
-submit_spark_task >> end_task
-start_spark_task >> end_task
-start_hadoop_task >> end_task
+# end_task = DummyOperator(
+#     task_id='end',
+#     dag=dag
+# )
+#
+# decide_task >> [submit_spark_task, start_spark_task, start_hadoop_task]
+# submit_spark_task >> end_task
+# start_spark_task >> end_task
+# start_hadoop_task >> end_task

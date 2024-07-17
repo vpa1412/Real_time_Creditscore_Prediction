@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dfc74e77-d5dd-4898-82a9-2c7612894843" name="Changes" comment="redis" />
+    <list default="true" id="dfc74e77-d5dd-4898-82a9-2c7612894843" name="Changes" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airflow_schedule/schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/airflow_schedule/schedule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/airflow_schedule/task_hadoop.py" beforeDir="false" afterPath="$PROJECT_DIR$/airflow_schedule/task_hadoop.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,18 +44,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests in ariflow_test.py.executor": "Run",
-    "Python.ariflow_test.executor": "Run",
-    "Python.redis_send.executor": "Run",
-    "Python.trainmodel.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/caodien/airflow_docker",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests in ariflow_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ariflow_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.redis_send.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trainmodel.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/caodien/airflow_docker&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -108,11 +112,20 @@
       <option name="project" value="LOCAL" />
       <updated>1721120680314</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="update">
+      <option name="closed" value="true" />
+      <created>1721178482738</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1721178482739</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="redis" />
-    <option name="LAST_COMMIT_MESSAGE" value="redis" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>
