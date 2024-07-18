@@ -1,94 +1,102 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import from_json, col
-from pyspark.sql.types import *
-from pyspark.ml.classification import RandomForestClassificationModel
+from pyspark.sql.types import StructType, StructField, StringType, FloatType, IntegerType
+from pyspark.ml import PipelineModel
+from pyspark.sql.functions import col, from_json, when
 
-spark = SparkSession.builder.appName("KafkaDataProcessing")\
-  .config('spark.cassandra.connection.host', '127.0.0.1:9042')\
-  .getOrCreate()
+# Tạo Spark session
+spark = SparkSession.builder \
+    .appName("BankCardPrediction") \
+    .getOrCreate()
+spark.sparkContext.setLogLevel("ERROR")
 
-spark.sparkContext.setLogLevel('ERROR')
-
-# Define schema
+# Định nghĩa schema
 schema = StructType([
     StructField("ID", StringType()),
-    StructField("Age", StringType()),  # Age is a float type
-    StructField("Annual_Income", StringType()),  # Annual_Income is a float type
-    StructField("Monthly_Inhand_Salary", StringType()),  # Monthly_Inhand_Salary is a float type
-    StructField("Num_Bank_Accounts", StringType()),  # Num_Bank_Accounts is an integer type
-    StructField("Num_Credit_Card", StringType()),  # Num_Credit_Card is an integer type
-    StructField("Interest_Rate", StringType()),  # Interest_Rate is an integer type
-    StructField("Num_of_Loan", StringType()),  # Num_of_Loan is a float type
-    StructField("Delay_from_due_date", StringType()),  # Delay_from_due_date is an integer type
-    StructField("Num_of_Delayed_Payment", StringType()),  # Num_of_Delayed_Payment is a float type
-    StructField("Changed_Credit_Limit", StringType()),  # Changed_Credit_Limit is a float type
-    StructField("Num_Credit_Inquiries", StringType()),  # Num_Credit_Inquiries is a float type
-    StructField("Outstanding_Debt", StringType()),  # Outstanding_Debt is a float type
-    StructField("Credit_Utilization_Ratio", StringType()),  # Credit_Utilization_Ratio is a float type
-    StructField("Total_EMI_per_month", StringType()),  # Total_EMI_per_month is a float type
-    StructField("Amount_invested_monthly", StringType()),  # Amount_invested_monthly is a float type
-    StructField("Monthly_Balance", StringType()),  # Monthly_Balance is a float type
-    StructField("Occupation_Numeric", StringType()),  # Occupation_Numeric is an integer type
-    StructField("Credit_History_Age_Numeric", StringType()),  # Credit_History_Age_Numeric is an integer type
-    StructField("Payment_of_Min_Amount_Numeric", StringType()),  # Payment_of_Min_Amount_Numeric is an integer type
-    StructField("Payment_Behaviour_Numeric", StringType())  # Payment_Behaviour_Numeric is an integer type
+    StructField("Age", StringType()),  # Initially read as StringType
+    StructField("Annual_Income", StringType()),  # Initially read as StringType
+    StructField("Monthly_Inhand_Salary", StringType()),  # Initially read as StringType
+    StructField("Num_Bank_Accounts", StringType()),  # Initially read as StringType
+    StructField("Num_Credit_Card", StringType()),  # Initially read as StringType
+    StructField("Interest_Rate", StringType()),  # Initially read as StringType
+    StructField("Num_of_Loan", StringType()),  # Initially read as StringType
+    StructField("Delay_from_due_date", StringType()),  # Initially read as StringType
+    StructField("Num_of_Delayed_Payment", StringType()),  # Initially read as StringType
+    StructField("Changed_Credit_Limit", StringType()),  # Initially read as StringType
+    StructField("Num_Credit_Inquiries", StringType()),  # Initially read as StringType
+    StructField("Outstanding_Debt", StringType()),  # Initially read as StringType
+    StructField("Credit_Utilization_Ratio", StringType()),  # Initially read as StringType
+    StructField("Total_EMI_per_month", StringType()),  # Initially read as StringType
+    StructField("Amount_invested_monthly", StringType()),  # Initially read as StringType
+    StructField("Monthly_Balance", StringType()),  # Initially read as StringType
+    StructField("Occupation_Numeric", StringType()),  # Initially read as StringType
+    StructField("Credit_History_Age_Numeric", StringType()),  # Initially read as StringType
+    StructField("Payment_of_Min_Amount_Numeric", StringType()),  # Initially read as StringType
+    StructField("Payment_Behaviour_Numeric", StringType())  # Initially read as StringType
 ])
 
-# Load the saved RandomForestClassificationModel
-model_path = "hdfs://192.168.80.66:9000/kt/model"  # Replace with your actual HDFS path
-model = RandomForestClassificationModel.load(model_path)
-
-# Read from Kafka
-df = spark.readStream \
+# Đọc dữ liệu từ Kafka
+kafka_df = spark.readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "192.168.80.83:9092") \
     .option("subscribe", "credit_testing") \
     .option("startingOffsets", "latest") \
     .option("failOnDataLoss", False) \
     .load() \
-    .selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")\
+    .selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)") \
     .select(from_json("value", schema).alias("json")) \
     .select("json.*")
 
-# Filter and select required columns
-df_qom = df.filter("ID is not null") \
-    .select(
-    "ID",
-    "Age",
-    "Annual_Income",
-    "Monthly_Inhand_Salary",
-    "Num_Bank_Accounts",
-    "Num_Credit_Card",
-    "Interest_Rate",
-    "Num_of_Loan",
-    "Delay_from_due_date",
-    "Num_of_Delayed_Payment",
-    "Changed_Credit_Limit",
-    "Num_Credit_Inquiries",
-    "Outstanding_Debt",
-    "Credit_Utilization_Ratio",
-    "Total_EMI_per_month",
-    "Amount_invested_monthly",
-    "Monthly_Balance",
-    "Occupation_Numeric",
-    "Credit_History_Age_Numeric",
-    "Payment_of_Min_Amount_Numeric",
-    "Payment_Behaviour_Numeric"
-    )
+# Chuyển đổi các cột từ StringType sang kiểu dữ liệu mong muốn
+converted_df = kafka_df \
+    .withColumn("Age", col("Age").cast(FloatType())) \
+    .withColumn("Annual_Income", col("Annual_Income").cast(FloatType())) \
+    .withColumn("Monthly_Inhand_Salary", col("Monthly_Inhand_Salary").cast(FloatType())) \
+    .withColumn("Num_Bank_Accounts", col("Num_Bank_Accounts").cast(IntegerType())) \
+    .withColumn("Num_Credit_Card", col("Num_Credit_Card").cast(IntegerType())) \
+    .withColumn("Interest_Rate", col("Interest_Rate").cast(IntegerType())) \
+    .withColumn("Num_of_Loan", col("Num_of_Loan").cast(FloatType())) \
+    .withColumn("Delay_from_due_date", col("Delay_from_due_date").cast(IntegerType())) \
+    .withColumn("Num_of_Delayed_Payment", col("Num_of_Delayed_Payment").cast(FloatType())) \
+    .withColumn("Changed_Credit_Limit", col("Changed_Credit_Limit").cast(FloatType())) \
+    .withColumn("Num_Credit_Inquiries", col("Num_Credit_Inquiries").cast(FloatType())) \
+    .withColumn("Outstanding_Debt", col("Outstanding_Debt").cast(FloatType())) \
+    .withColumn("Credit_Utilization_Ratio", col("Credit_Utilization_Ratio").cast(FloatType())) \
+    .withColumn("Total_EMI_per_month", col("Total_EMI_per_month").cast(FloatType())) \
+    .withColumn("Amount_invested_monthly", col("Amount_invested_monthly").cast(FloatType())) \
+    .withColumn("Monthly_Balance", col("Monthly_Balance").cast(FloatType())) \
+    .withColumn("Occupation_Numeric", col("Occupation_Numeric").cast(IntegerType())) \
+    .withColumn("Credit_History_Age_Numeric", col("Credit_History_Age_Numeric").cast(IntegerType())) \
+    .withColumn("Payment_of_Min_Amount_Numeric", col("Payment_of_Min_Amount_Numeric").cast(IntegerType())) \
+    .withColumn("Payment_Behaviour_Numeric", col("Payment_Behaviour_Numeric").cast(IntegerType()))
 
-# Transform the data using the loaded model
-predictions = model.transform(df_qom)
+# Thay thế các giá trị null bằng giá trị mặc định
+converted_df = converted_df.na.fill(0)
 
-# Select the relevant columns for output
-output = predictions.select("ID", "prediction")
+converted_df.printSchema()
 
-# Write predictions to console
-output.writeStream \
-    .trigger(processingTime="10 seconds") \
+# Hiển thị dữ liệu để kiểm tra
+query = converted_df.writeStream \
+    .outputMode("append") \
     .format("console") \
-    .option("checkpointLocation", "/home/ktinh/checkpoint3") \
-    .outputMode("update") \
+    .option("checkpointLocation", "/home/ktinh/checkpoint")\
     .start()
 
-spark.streams.awaitAnyTermination()
-spark.stop()
+query.awaitTermination(5)
+query.stop()
+
+# Load mô hình từ HDFS
+model = PipelineModel.load("hdfs://192.168.80.85:9000/kt/model_ok")
+
+# Dự đoán với mô hình
+predictions = model.transform(converted_df)
+
+# Hiển thị kết quả dự đoán
+output_df = predictions.select("*")
+
+query = output_df.writeStream \
+    .outputMode("append") \
+    .format("console") \
+    .option("checkpointLocation", "/home/ktinh/checkpoint1")\
+    .start()
+
+query.awaitTermination()
