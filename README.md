@@ -8,12 +8,6 @@
 - [Kafka-2.1.3-3.7.0](https://kafka.apache.org/quickstart)
 - [Airflow](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
 - [Redis](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/docker/)
-# Train Model
-### submit spark to processing data
-```
-
-```
-### submit spark to create model after train
 #  Airflow:
 ### start
 ```
@@ -61,3 +55,12 @@ Example: put ``task_hadoop.py`` in /home/user/orschestrator/
 cd /home/user/orschestrator/
 rq worker -u redis://192.168.80.91:6379 hadoop
 ````
+# Train Model
+### submit spark to processing data
+```
+./bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.1 /home/ktinh/PycharmProjects/final_bigdata/data_preparation/processingData.py
+```
+### submit spark to create model after train
+```
+./bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.1 /home/ktinh/PycharmProjects/final_bigdata/data_preparation/trainModel.py
+```
