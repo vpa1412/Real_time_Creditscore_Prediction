@@ -7,8 +7,6 @@
     <list default="true" id="dfc74e77-d5dd-4898-82a9-2c7612894843" name="Changes" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command" beforeDir="false" afterPath="$PROJECT_DIR$/command" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_preparation/trainModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_preparation/trainModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streaming/streamPredict.py" beforeDir="false" afterPath="$PROJECT_DIR$/streaming/streamPredict.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,12 +29,12 @@
     &quot;assignee&quot;: &quot;CaoDien2003&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/vpa1412/final_bigdata.git&quot;,
-    &quot;accountId&quot;: &quot;5466cc70-b6da-42ac-8f8d-71c305728494&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/vpa1412/final_bigdata.git",
+    "accountId": "5d75abd2-9cce-4b75-b3bb-45bd137dab6c"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -145,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721447352008</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update">
+      <option name="closed" value="true" />
+      <created>1721447794220</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1721447794220</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
