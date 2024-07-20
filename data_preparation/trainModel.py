@@ -51,7 +51,7 @@ pipeline = Pipeline(stages=[assembler, rf])
 model = pipeline.fit(df)
 
 # Save the trained model
-# model.write().overwrite().save("hdfs://192.168.80.41:9000/kt/model_ok")
+# model.write().overwrite().save("hdfs://192.168.80.41:9000/kt/credit_model")
 
 # Stop Spark session
 spark.stop()

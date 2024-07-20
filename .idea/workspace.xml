@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dfc74e77-d5dd-4898-82a9-2c7612894843" name="Changes" comment="Update">
-      <change afterPath="$PROJECT_DIR$/command" afterDir="false" />
+    <list default="true" id="dfc74e77-d5dd-4898-82a9-2c7612894843" name="Changes" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_preparation/processingData.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_preparation/processingData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command" beforeDir="false" afterPath="$PROJECT_DIR$/command" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_preparation/trainModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_preparation/trainModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streaming/readDeltable.py" beforeDir="false" afterPath="$PROJECT_DIR$/streaming/readDeltable.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/streaming/streamPredict.py" beforeDir="false" afterPath="$PROJECT_DIR$/streaming/streamPredict.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,14 +137,22 @@
       <option name="project" value="LOCAL" />
       <updated>1721205327701</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="update">
+      <option name="closed" value="true" />
+      <created>1721447352008</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1721447352008</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="redis" />
-    <MESSAGE value="update" />
     <MESSAGE value="update stream kafka" />
     <MESSAGE value="Update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>

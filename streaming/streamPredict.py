@@ -77,7 +77,7 @@ converted_df = converted_df.na.fill(0)
 converted_df.printSchema()
 
 # Load model from HDFS
-model = PipelineModel.load("hdfs://192.168.80.41:9000/kt/model_ok")
+model = PipelineModel.load("hdfs://192.168.80.41:9000/kt/credit_model")
 
 # Predict with the model
 predictions = model.transform(converted_df)
