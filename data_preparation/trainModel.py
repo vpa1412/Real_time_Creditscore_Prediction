@@ -3,18 +3,18 @@ from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.classification import RandomForestClassifier
 from pyspark.ml import Pipeline
 
-# Tạo Spark session
+# Create Spark session
 spark = SparkSession.builder \
     .appName("BankCardModelTraining") \
     .getOrCreate()
 
-# Đọc dữ liệu từ file CSV và tự động suy luận schema
-df = spark.read.csv("/home/ktinh/PycharmProjects/final_bigdata/processed.csv", header=True, inferSchema=True)
+# Read data from CSV file and infer schema automatically
+df = spark.read.csv("/home/ktinh/PycharmProjects/final_bigdata/data/processed.csv", header=True, inferSchema=True)
 
-# In ra schema để kiểm tra
+# Print schema to checkvv
 df.printSchema()
 
-# Tập hợp các đặc trưng vào một cột 'features'
+# Assemble features into a 'features' column
 assembler = VectorAssembler(
     inputCols=[
         "Age",
@@ -41,17 +41,17 @@ assembler = VectorAssembler(
     outputCol="features"
 )
 
-# Định nghĩa mô hình RandomForest
+# Define RandomForest model
 rf = RandomForestClassifier(featuresCol="features", labelCol="Credit_Score_Numeric")
 
-# Tạo pipeline
+# Create pipeline
 pipeline = Pipeline(stages=[assembler, rf])
 
-# Huấn luyện mô hình
+# Train the model
 model = pipeline.fit(df)
 
-# Lưu mô hình đã huấn luyện
+# Save the trained model
 # model.write().overwrite().save("hdfs://192.168.80.41:9000/kt/model_ok")
 
-# Dừng Spark session
+# Stop Spark session
 spark.stop()

@@ -3,7 +3,7 @@ from pyspark.sql.types import StructType, StructField, StringType, FloatType, In
 from pyspark.ml import PipelineModel
 from pyspark.sql.functions import col, from_json, when
 
-# Tạo Spark session
+# Create Spark session
 spark = SparkSession.builder \
     .appName("Prediction") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
@@ -11,7 +11,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
 
-# Định nghĩa schema
+# Define schema
 schema = StructType([
     StructField("ID", StringType()),
     StructField("Age", StringType()),  # Initially read as StringType
@@ -36,7 +36,7 @@ schema = StructType([
     StructField("Payment_Behaviour_Numeric", StringType())  # Initially read as StringType
 ])
 
-# Đọc dữ liệu từ Kafka
+# Read data from Kafka
 kafka_df = spark.readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "192.168.80.83:9092") \
@@ -48,7 +48,7 @@ kafka_df = spark.readStream \
     .select(from_json("value", schema).alias("json")) \
     .select("json.*")
 
-# Chuyển đổi các cột từ StringType sang kiểu dữ liệu mong muốn
+# Convert columns from StringType to desired data types
 converted_df = kafka_df \
     .withColumn("Age", col("Age").cast(FloatType())) \
     .withColumn("Annual_Income", col("Annual_Income").cast(FloatType())) \
@@ -71,21 +71,19 @@ converted_df = kafka_df \
     .withColumn("Payment_of_Min_Amount_Numeric", col("Payment_of_Min_Amount_Numeric").cast(IntegerType())) \
     .withColumn("Payment_Behaviour_Numeric", col("Payment_Behaviour_Numeric").cast(IntegerType()))
 
-# Thay thế các giá trị null bằng giá trị mặc định
+# Replace null values with default values
 converted_df = converted_df.na.fill(0)
 
 converted_df.printSchema()
 
-# Load mô hình từ HDFS
+# Load model from HDFS
 model = PipelineModel.load("hdfs://192.168.80.41:9000/kt/model_ok")
 
-# Dự đoán với mô hình
+# Predict with the model
 predictions = model.transform(converted_df)
 
-# Hiển thị kết quả dự đoán
+# Display prediction results
 output_df = predictions.select("*")
-
-# output_df1 = predictions.select("*")
 
 output_df.writeStream \
     .trigger(processingTime="10 seconds") \

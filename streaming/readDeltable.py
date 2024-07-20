@@ -1,7 +1,4 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import from_json
-from pyspark.sql.types import *
-# from delta import configure_spark_with_delta_pip
 
 spark = SparkSession.builder.appName("Showtable") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \

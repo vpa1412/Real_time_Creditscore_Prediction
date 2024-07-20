@@ -1,7 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import expr, col, last, regexp_replace, lag, lead, first, when, coalesce, udf
-from pyspark.ml.feature import StringIndexer, OneHotEncoder
-from pyspark.ml import Pipeline
+from pyspark.sql.functions import  col, last, regexp_replace, lag, lead, first, when, coalesce, udf
 from pyspark.sql.types import StringType, IntegerType
 from pyspark.sql.window import Window
 
@@ -15,19 +13,6 @@ df = spark.read.csv('hdfs://192.168.80.66:9000/kt/train.csv', header=True, infer
 
 # Drop unwanted columns
 df = df.drop("ID", "Customer_ID", "Month", "Name", "SSN", "Type_of_Loan", "Credit_Mix")
-
-# Define a UDF to convert Credit_Score text to integers
-# def credit_score_to_numeric(credit_score):
-#     mappings = {'Good': 1, 'Standard': 2, 'Poor': 3}
-#     return mappings.get(credit_score, 0)  # Return 0 if none of these values match
-#
-# # Register UDF
-# credit_score_udf = udf(credit_score_to_numeric, IntegerType())
-#
-# # Apply UDF to create a new column
-# df = df.withColumn("Credit_Score_Numeric", credit_score_udf(col("Credit_Score")))
-#
-# df = df.drop("Credit_Score")
 
 # Fill NA values with mode
 mode_dict = {}
@@ -57,23 +42,6 @@ for column in numeric_columns:
     upper_bound = q3 + 1.5 * iqr
     df = df.filter((col(column) >= lower_bound) & (col(column) <= upper_bound))
 
-# # List of categorical columns
-# categorical_columns = ["Occupation", "Credit_Mix", "Credit_History_Age", "Payment_of_Min_Amount", "Payment_Behaviour"]
-# # Indexing and encoding stages
-# stages = []
-# for column in categorical_columns:
-#     string_indexer = StringIndexer(inputCol=column, outputCol=column + "_Index")
-#     one_hot_encoder = OneHotEncoder(inputCol=column + "_Index", outputCol=column + "_OHE")
-#     stages += [string_indexer, one_hot_encoder]
-#
-# # Create a pipeline to execute indexing and encoding
-# pipeline = Pipeline(stages=stages)
-# df = pipeline.fit(df).transform(df)
-#
-# # Drop original and indexed columns, keep only the OHE columns
-# indexed_columns = [column + "_Index" for column in categorical_columns]
-# ohe_columns = [column + "_OHE" for column in categorical_columns]
-# df = df.drop(*categorical_columns).drop(*indexed_columns)
 
 #Occupation
 window_spec = Window.orderBy("Age").rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing)

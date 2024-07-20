@@ -4,22 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dfc74e77-d5dd-4898-82a9-2c7612894843" name="Changes" comment="update stream kafka">
-      <change afterPath="$PROJECT_DIR$/airflow_schedule/scheduleService.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/airflow_schedule/scheduleStream.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/airflow_schedule/task_streaming.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_11_24,_10_18_AM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_11_24__10_18_AM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_12_24,_3_00_PM_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_12_24__3_00_PM__Changes_1.xml" beforeDir="false" />
+    <list default="true" id="dfc74e77-d5dd-4898-82a9-2c7612894843" name="Changes" comment="Update">
+      <change afterPath="$PROJECT_DIR$/command" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airflow_schedule/schedule.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/airflow_schedule/task_cassandra.py" beforeDir="false" afterPath="$PROJECT_DIR$/airflow_schedule/task_cassandra.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airflow_schedule/task_hadoop.py" beforeDir="false" afterPath="$PROJECT_DIR$/airflow_schedule/task_hadoop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airflow_schedule/task_spark.py" beforeDir="false" afterPath="$PROJECT_DIR$/airflow_schedule/task_spark.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/airflow_schedule/task_steaming.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ariflow_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_preparation/processingData.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_preparation/processingData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_preparation/trainModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_preparation/trainModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streaming/readDeltable.py" beforeDir="false" afterPath="$PROJECT_DIR$/streaming/readDeltable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streaming/streamPredict.py" beforeDir="false" afterPath="$PROJECT_DIR$/streaming/streamPredict.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,18 +47,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests in ariflow_test.py.executor": "Run",
-    "Python.ariflow_test.executor": "Run",
-    "Python.redis_send.executor": "Run",
-    "Python.trainmodel.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/caodien/PycharmProjects/final_bigdata/airflow_schedule",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests in ariflow_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ariflow_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.redis_send.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trainmodel.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/caodien/PycharmProjects/final_bigdata/airflow_schedule&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/airflow_schedule" />
@@ -155,6 +146,7 @@
     <MESSAGE value="redis" />
     <MESSAGE value="update" />
     <MESSAGE value="update stream kafka" />
-    <option name="LAST_COMMIT_MESSAGE" value="update stream kafka" />
+    <MESSAGE value="Update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update" />
   </component>
 </project>
