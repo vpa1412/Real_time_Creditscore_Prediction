@@ -5,7 +5,9 @@ from pyspark.sql.functions import col, from_json, when
 
 # Tạo Spark session
 spark = SparkSession.builder \
-    .appName("BankCardPrediction") \
+    .appName("Prediction") \
+    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
+    .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
     .getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
 
@@ -74,16 +76,6 @@ converted_df = converted_df.na.fill(0)
 
 converted_df.printSchema()
 
-# Hiển thị dữ liệu để kiểm tra
-query = converted_df.writeStream \
-    .outputMode("append") \
-    .format("console") \
-    .option("checkpointLocation", "/home/ktinh/checkpoint")\
-    .start()
-
-query.awaitTermination(5)
-query.stop()
-
 # Load mô hình từ HDFS
 model = PipelineModel.load("hdfs://192.168.80.41:9000/kt/model_ok")
 
@@ -93,10 +85,19 @@ predictions = model.transform(converted_df)
 # Hiển thị kết quả dự đoán
 output_df = predictions.select("*")
 
-query = output_df.writeStream \
-    .outputMode("append") \
+# output_df1 = predictions.select("*")
+
+output_df.writeStream \
+    .trigger(processingTime="10 seconds") \
     .format("console") \
-    .option("checkpointLocation", "/home/ktinh/checkpoint1")\
+    .option("checkpointLocation", "/home/ktinh/checkpoint") \
+    .outputMode("update") \
     .start()
 
-query.awaitTermination()
+output_df.writeStream \
+    .format("delta") \
+    .option("checkpointLocation", "/home/ktinh/checkpoint1") \
+    .start("hdfs://192.168.80.41:9000/kt/deltable")
+
+spark.streams.awaitAnyTermination()
+spark.stop()

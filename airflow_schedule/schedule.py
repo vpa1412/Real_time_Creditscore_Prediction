@@ -23,7 +23,7 @@ def start_Hadoop():
     q.enqueue(startHadoop)
 def start_Steaming():
     r = Redis(host='192.168.80.58', port=6379)
-    q = Queue('stream', connection=r)
+    q = Queue('streaming', connection=r)
     q.enqueue(startHadoop)
 def start_Cassandra():
     r = Redis(host='192.168.80.58', port=6379)

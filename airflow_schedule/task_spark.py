@@ -11,9 +11,9 @@ def startSpark():
 def submitSpark():
     try:
         os.chdir("/home/ktinh/Documents/ah/spark-3.5.1-bin-hadoop3-scala2.13/bin/")
-        subprocess.run(["./bin/spark-submit "
+        subprocess.run(["./spark-submit "
                        ,"--packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.1,com.datastax.spark:spark-cassandra-connector_2.13:3.5.1"
-                       ,"/home/ktinh/PycharmProjects/final_bigdata/predict_credit.py"])
+                       ,"/home/ktinh/PycharmProjects/final_bigdata/streamPredict.py"])
         print("submit Spark: done")
     except Exception as e:
         print(f"Error in submit Spark: {e}")
