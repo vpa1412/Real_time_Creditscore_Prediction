@@ -20,3 +20,15 @@ def submitSpark():
     except Exception as e:
         print(f"Error in submit Spark: {e}")
         return 'failed'
+def submitDeltable():
+    try:
+        os.chdir("/home/user/path/to/spark-3.5.1-bin-hadoop3-scala2.13/bin/")
+        subprocess.run(["./spark-submit ",
+                        "--packages io.delta:delta-spark_2.13:3.2.0,org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.1 ",
+                        "/home/user/PycharmProjects/final_bigdata/streaming/readDeltable.py"]) # Make sure the path is correct
+
+        print("submit Deltable: done")
+        return 'success'
+    except Exception as e:
+        print(f"Error in submit deltale: {e}")
+        return 'failed'

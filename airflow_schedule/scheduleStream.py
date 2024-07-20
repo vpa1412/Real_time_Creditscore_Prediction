@@ -9,7 +9,9 @@ from rq import Queue
 from task_streaming import startStreaming
 from task_spark import submitSpark
 
-
+# host redis server
+host_redis = "192.168.80.91"
+port_redis = 6379
 def streaming():
     r = Redis(host='192.168.80.58', port=6379)
     q = Queue('stream', connection=r)
@@ -19,7 +21,6 @@ def submit():
     r = Redis(host='192.168.80.58', port=6379)
     q = Queue('spark', connection=r)
     q.enqueue(submitSpark)
-
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,

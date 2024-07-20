@@ -9,7 +9,6 @@ from rq import Queue
 from task_hadoop import startHadoop
 from task_spark import startSpark
 from task_streaming import startKafka
-from task_cassandra import startCassandra
 
 # host redis server
 host_redis = "192.168.80.91"
@@ -25,10 +24,6 @@ def start_Kafka():
 def start_Spark():
     r = Redis(host=host_redis, port=port_redis)
     q = Queue('spark', connection=r)
-    q.enqueue(startSpark)
-def start_Cassandra():
-    r = Redis(host=host_redis, port=port_redis)
-    q = Queue('cassandra', connection=r)
     q.enqueue(startSpark)
 
 # start 1 time
@@ -67,9 +62,3 @@ startKafka_task = PythonOperator(
     python_callable=start_Kafka,
     dag=dag,
 )
-startCassandra_task = PythonOperator(
-    task_id='startCassandra',
-    python_callable=start_Cassandra,
-    dag=dag,
-)
-
