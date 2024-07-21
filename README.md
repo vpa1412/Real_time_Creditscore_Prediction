@@ -1,4 +1,4 @@
-# final_bigdata
+# Real-time Credit Score Prediction
 
 # Requirement
 - [Java-11](https://www.oracle.com/java/technologies/downloads/#java11)
