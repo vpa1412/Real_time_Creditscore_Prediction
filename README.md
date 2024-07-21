@@ -1,4 +1,4 @@
-# Real-time Credit Score Prediction
+# <div align="center">Real-time Credit Score Prediction</div>
 
 # Requirement
 - [Java-11](https://www.oracle.com/java/technologies/downloads/#java11)
@@ -8,59 +8,60 @@
 - [Kafka-2.1.3-3.7.0](https://kafka.apache.org/quickstart)
 - [Airflow](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
 - [Redis](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/docker/)
-#  Airflow:
-### start
+# Usage
+###  Airflow:
+#### start
 ```
 docker compose up
 ```
-### stop
+##### stop
 ```
 docker compose down
 ```
-# Redis server:
+### Redis server:
 Example install:
 ```
 docker run -d --name redisServer -p 192.168.80.91:6379:6379 redis
 ```
-### start
+#### start
 ```
 docker start redisServer
 ```
-### stop
+#### stop
 ```
 docker stop redisServer
 ```
-# worker:
+### Worker:
 ```
 cd /home/user/path/to/folder/task.py
 ```
-### Hadoop
+#### Hadoop
 ```
 rq worker -u redis://192.168.80.91:6379 hadoop
 ```
-### Spark 
+#### Spark 
 ```
 rq worker -u redis://192.168.80.91:6379 spark
 ```
-### Stream-kafka
+#### Stream-kafka
 ```
 rq worker -u redis://192.168.80.91:6379 stream
-```
-### Cassandra
-```
-rq worker -u redis://192.168.80.91:6379 cassandra
 ```
 Example: put ``task_hadoop.py`` in /home/user/orschestrator/
 ````
 cd /home/user/orschestrator/
 rq worker -u redis://192.168.80.91:6379 hadoop
 ````
-# Train Model
+## Train Model
 ### submit spark to processing data
 ```
-./bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.1 /home/ktinh/PycharmProjects/final_bigdata/data_preparation/processingData.py
+./bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.1 /home/user/path/to/processingData.py
 ```
 ### submit spark to create model after train
 ```
-./bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.1 /home/ktinh/PycharmProjects/final_bigdata/data_preparation/trainModel.py
+./bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.1 /home/user/path/to/trainModel.py
 ```
+## Notes
+- Ensure all paths are correctly set according to your project structure.
+- Verify that all services (Hadoop, Spark, Cassandra, Kafka, Airflow, Redis) are running and properly configured before starting the workers and submitting jobs.
+- Adjust the IP addresses, ports, and paths according to your specific setup.
