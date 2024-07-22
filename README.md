@@ -8,6 +8,10 @@
 - [Kafka-2.1.3-3.7.0](https://kafka.apache.org/quickstart)
 - [Airflow](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
 - [Redis](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/docker/)
+- Install requirements
+````
+pip install -r requirements.txt
+````
 # Usage
 ###  Airflow:
 #### start
